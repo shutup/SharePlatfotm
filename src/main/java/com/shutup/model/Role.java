@@ -2,34 +2,39 @@ package com.shutup.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by Tom on 1/11/17.
  */
 @Entity
 public class Role implements GrantedAuthority{
-    private String role_name;
+    private String roleName;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    protected Role(){
+//    @OneToMany(targetEntity = SystemUser.class, cascade = CascadeType.ALL)
+//    @JoinTable(name = "system_user_role",
+//            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "system_user_id",referencedColumnName = "id")})
+//    private Collection<SystemUser> systemUsers;
+    @ManyToMany(mappedBy = "roles")
+    private Collection<SystemUser> systemUsers;
 
-    }
-    public Role(String role_name) {
-        this.role_name = role_name;
+    protected Role(){}
+
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
 
-    public String getRole_name() {
-        return role_name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public Long getId() {
@@ -42,6 +47,6 @@ public class Role implements GrantedAuthority{
 
     @Override
     public String getAuthority() {
-        return role_name;
+        return roleName;
     }
 }

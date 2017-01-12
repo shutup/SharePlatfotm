@@ -7,6 +7,7 @@ import com.shutup.repo.RoleRepo;
 import com.shutup.repo.SystemUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Created by Tom on 1/11/17.
  */
+@Component
 public class StartupRunner implements CommandLineRunner , Constants{
     @Autowired
     RoleRepo roleRepo;
@@ -30,16 +32,18 @@ public class StartupRunner implements CommandLineRunner , Constants{
         roleRepo.save(salesRole);
 
         List<Role> roleList = new ArrayList<>();
-        Role aRole = roleRepo.findByRole_Name(Role_Administrator);
-
-        SystemUser admin = new SystemUser("admin","password",roleList);
+        Role aRole = roleRepo.findByRoleName(Role_Administrator);
+        Role oRole = roleRepo.findByRoleName(Role_Club_Owner);
+        roleList.add(oRole);
+        roleList.add(aRole);
+        SystemUser admin = new SystemUser("admin","password");
+        admin.addRoles(roleList);
         userRepo.save(admin);
 
-        roleList.clear();
-        Role oRole = roleRepo.findByRole_Name(Role_Club_Owner);
-        roleList.add(oRole);
 
-        SystemUser owner = new SystemUser("club","club",roleList);
+
+        SystemUser owner = new SystemUser("club","club");
+        owner.addRole(oRole);
         userRepo.save(owner);
     }
 }

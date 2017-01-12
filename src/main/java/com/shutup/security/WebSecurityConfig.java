@@ -25,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(http);
         // disable caching
         http.headers().cacheControl();
-
         http.csrf().disable() // disable csrf for our requests.
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
@@ -44,10 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // Create a default account
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("password")
-//                .roles("ADMIN");
-        auth.userDetailsService(userDetailsService);
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password("password")
+                .roles("ADMIN");
+//        auth.userDetailsService(userDetailsService);
     }
 }
