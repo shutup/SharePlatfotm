@@ -36,7 +36,7 @@ public class StartupRunner implements CommandLineRunner , Constants{
         Role oRole = roleRepo.findByRoleName(Role_Club_Owner);
         roleList.add(oRole);
         roleList.add(aRole);
-        SystemUser admin = new SystemUser("admin","password");
+        SystemUser admin = new SystemUser("admin","admin");
         admin.addRoles(roleList);
         userRepo.save(admin);
 

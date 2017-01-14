@@ -2,7 +2,6 @@ package com.shutup.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,16 +11,12 @@ import java.util.List;
 public class SystemUser {
     private String username;
     private String password;
-//    @OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//    @JoinTable(name = "system_user_role",
-//            joinColumns = {@JoinColumn(name = "system_user_id",referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
-//    private Collection<Role> roles = new ArrayList<>();
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "system_user_role",
             joinColumns = {@JoinColumn(name = "system_user_id",referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
-    private Collection<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -50,7 +45,7 @@ public class SystemUser {
         this.password = password;
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 

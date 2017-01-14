@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 /**
  * Created by Tom on 1/11/17.
@@ -15,11 +17,6 @@ public class Role implements GrantedAuthority{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @OneToMany(targetEntity = SystemUser.class, cascade = CascadeType.ALL)
-//    @JoinTable(name = "system_user_role",
-//            joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")},
-//            inverseJoinColumns = {@JoinColumn(name = "system_user_id",referencedColumnName = "id")})
-//    private Collection<SystemUser> systemUsers;
     @ManyToMany(mappedBy = "roles")
     private Collection<SystemUser> systemUsers;
 
@@ -27,6 +24,11 @@ public class Role implements GrantedAuthority{
 
     public Role(String roleName) {
         this.roleName = roleName;
+    }
+
+    public Role(LinkedHashMap l) {
+        this.roleName = (String) l.get("roleName");
+
     }
 
     public String getRoleName() {
@@ -44,6 +46,7 @@ public class Role implements GrantedAuthority{
     public void setId(Long id) {
         this.id = id;
     }
+
 
     @Override
     public String getAuthority() {

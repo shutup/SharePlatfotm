@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Tom on 1/11/17.
@@ -11,14 +12,16 @@ import java.util.Collection;
 public class AuthenticatedUser implements Authentication {
     private String name;
     private boolean authenticated = true;
+    private List<? extends GrantedAuthority> roles;
 
-    AuthenticatedUser(String name){
+    AuthenticatedUser(String name,List<? extends GrantedAuthority> roles){
         this.name = name;
+        this.roles = roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
